@@ -2,7 +2,7 @@
 
 **Wind & Solar Trade Policy Climate Impact Analysis Tool**
 
-> Zaizuo Gong | Supervisor: Prof. Can W. | 硕士学位论文配套工具 · 2026年5月
+> Zaizuo Gong | Supervisor: Prof. Can W. | 硕士学位论文配套工具 · 2026年
 
 ---
 
