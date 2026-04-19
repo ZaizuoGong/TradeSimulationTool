@@ -2,7 +2,7 @@
 
 **Wind & Solar Trade Policy Climate Impact Analysis Tool**
 
-> 宫再佐 | 清华大学环境学院 | 指导教师：王灿教授  
+> Zaizuo Gong | Supervisor: Prof. Can W. 
 > 硕士学位论文配套工具 · 2026年5月
 
 ---
