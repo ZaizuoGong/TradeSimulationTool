@@ -1,0 +1,21 @@
+# Generated outputs
+tool_outputs/
+csv_exports/
+output_maps/
+output_tables/
+price_tables/
+sim_results/
+viz_output/
+welfare_charts/
+
+# Generated images in root
+*.png
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+Thumbs.db
