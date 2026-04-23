@@ -1,4 +1,4 @@
-# 风光产品贸易壁垒气候目标实现的影响分析工具
+# 风光贸易壁垒对气候目标实现的影响分析工具
 
 **Wind & Solar Trade Policy Climate Impact Analysis Tool**
 
