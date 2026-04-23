@@ -319,8 +319,8 @@ Barriers on Climate Target Attainment [D]. Beijing: Tsinghua University, 2026.
 
 ## 联系 | Contact
 
-**作者**：宫再佐  
-**单位**：清华大学环境学院  
-**指导教师**：王灿 教授  
-**邮箱**：gongsaisou01@gmail.com  
+**Author**：Zaizuo Gong 
+**Organization**：清华大学环境学院  
+**Supervisor**：Prof. Can W.
+**Email**：gongsaisou01@gmail.com  
 **GitHub**：[ZaizuoGong/TradeSimulationTool](https://github.com/ZaizuoGong/TradeSimulationTool)
