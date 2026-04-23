@@ -58,7 +58,6 @@ log CAPEX_t = α + β·log(Q_t/Q_ref) + θ·log(P_t) + ε
 
 参数估计采用**Metropolis-Hastings MCMC**方法，以弱信息先验结合历史数据（2010–2023年）进行贝叶斯后验推断，并以Gelman-Rubin统计量（R̂ < 1.1）作为收敛判据。
 
-### 模块三：气候目标对标（Carbon Alignment）
 
 将装机预测路径与以下四类目标逐一比对，识别装机缺口、额外投资成本及目标延迟年份：
 
