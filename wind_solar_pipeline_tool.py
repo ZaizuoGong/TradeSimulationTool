@@ -4781,7 +4781,7 @@ def plot_capex_impact(
                         fmt="none", color="black", capsize=2.5, lw=1.0, zorder=4)
             ax.axhline(0, color="black", lw=0.8)
             ax.set_xticks(x)
-            ax.set_xticklabels(sub["country"].tolist(), rotation=60, fontsize=7, ha="right")
+            ax.set_xticklabels([_VIZ_COUNTRY_ZH.get(c, c) for c in sub["country"].tolist()], rotation=60, fontsize=7, ha="right", **fp)
             ax.set_ylabel("装机成本变化（%）" if s_idx == 0 else "", fontsize=9, **fp)
             ax.set_title(f"{TECH_LABELS[tech]} — {scen_zh_map.get(scen, scen)}",
                          fontsize=10, **fp)
@@ -4839,7 +4839,7 @@ def plot_supply_chain_heatmap(
                 ax.set_visible(False)
                 continue
             delta = sub["input_price_index"] - 1.0
-            ax.barh(sub["country"], delta,
+            ax.barh([_VIZ_COUNTRY_ZH.get(c, c) for c in sub["country"]], delta,
                     color=["#E05C3A" if v > 0 else "#2E8B57" for v in delta],
                     alpha=0.75)
             ax.axvline(0, color="black", lw=0.8)
@@ -4894,7 +4894,7 @@ def plot_pv_chain_decomposition_heatmap(
                 ~decomposed_df["country"].isin(["ROW"])
             ].sort_values("input_price_index", ascending=False)
             delta   = sub["input_price_index"] - 1.0
-            ax.barh(sub["country"], delta,
+            ax.barh([_VIZ_COUNTRY_ZH.get(c, c) for c in sub["country"]], delta,
                     color=[prod_colors[prod] if d > 0 else "#2E8B57" for d in delta],
                     alpha=0.80)
             ax.axvline(0, color="black", lw=0.8)
@@ -4914,7 +4914,7 @@ def plot_pv_chain_decomposition_heatmap(
             ~full_index_df["country"].isin(["ROW"])
         ].sort_values("input_price_index", ascending=False))
         delta_f = sub_f["input_price_index"] - 1.0
-        ax_c.barh(sub_f["country"], delta_f,
+        ax_c.barh([_VIZ_COUNTRY_ZH.get(c, c) for c in sub_f["country"]], delta_f,
                   color=["#1E3A8A" if d > 0 else "#2E8B57" for d in delta_f],
                   alpha=0.80)
         ax_c.axvline(0, color="black", lw=0.8)
@@ -6028,7 +6028,7 @@ def _compute_cpi_proj(gsim_shocks: Dict, tech: str
     return result
 
 
-def _compute_pv_isolated_proj(gsim_shocks: Dict) -> Dict[str, Dict[str, float]]:
+def _compute_pv_isolated_proj(gsim_shocks: Dict, scenario: str = _PV_BASE_SCEN) -> Dict[str, Dict[str, float]]:
     """
     Build isolated single-product price indices for PV chain decomposition analysis.
     Returns {scenario_variant: {country: price_index}}.
@@ -6042,13 +6042,13 @@ def _compute_pv_isolated_proj(gsim_shocks: Dict) -> Dict[str, Dict[str, float]]:
         "pv_modules":     "modules",
     }
 
-    sd = gsim_shocks.get(_PV_BASE_SCEN, {})
+    sd = gsim_shocks.get(scenario, {})
     result: Dict[str, Dict[str, float]] = {
         "baseline": {c: 1.0 for c in CODES}
     }
 
     for active in pv_prods:
-        variant = f"{_PV_BASE_SCEN}_{short[active]}_only"
+        variant = f"{scenario}_{short[active]}_only"
         ci: Dict[str, float] = {}
         for c in CODES:
             idx = 0.0
@@ -6066,7 +6066,7 @@ def _compute_pv_isolated_proj(gsim_shocks: Dict) -> Dict[str, Dict[str, float]]:
             for prod, w in weights.items()
         )
         combined[c] = idx
-    result[_PV_BASE_SCEN] = combined
+    result[scenario] = combined
     return result
 
 
@@ -6555,7 +6555,7 @@ def plot_capacity_change_bars(all_results_by_tech, proj_years, countries, out_di
 
 
 # ------------------------------------------------------------------
-# Type (3): 装机量/CAPEX 产品分解（两技术，堆叠柱状图 + 地图）
+# Type (3a): 装机量/CAPEX 产品分解（两技术，堆叠柱状图 + 地图）
 # ------------------------------------------------------------------
 
 _DECOMP_TECH_INFO = {
@@ -7008,11 +7008,11 @@ def plot_capex_decomposition_future(
 
 
 # ------------------------------------------------------------------
-# Type (4): CAPEX变化率 — 地图 + 柱状图
+# Type (4a): CAPEX变化率 — 地图 + 柱状图
 # ------------------------------------------------------------------
 def plot_capex_change_bars(all_results_by_tech, proj_years, countries, out_dir):
     """
-    Type (4)：CAPEX 变化率 — 地图 + 柱状图。
+    Type (4a)：CAPEX 变化率 — 地图 + 柱状图。
     每个技术×年份一张图：2 行 × 3 列（上行地图，下行柱状图，列=情景）。
     """
     milestone_years = [2030, 2040, 2050]
@@ -7650,8 +7650,8 @@ def step8_projections():
         print("\n  【Type 2】装机量变化率条形图...")
         plot_capacity_change_bars(all_results_by_tech, final_proj_years, countries, new_fig_dir)
 
-        # ── Type (3): 装机量分解图（光伏+风电）──
-        print("\n  【Type 3】装机量产品分解图...")
+        # ── Type (3a): 装机量分解图（光伏+风电）──
+        print("\n  【Type 3a】装机量产品分解图...")
         plot_capacity_decomposition(
             all_results_decomp_pv,
             all_results_by_tech.get("solar_pv", {}),
@@ -7661,14 +7661,6 @@ def step8_projections():
             mcmc_results=mcmc_cache,
         )
 
-        # ── Type (4): CAPEX变化率条形图 ──
-        print("\n  【Type 4】CAPEX变化率条形图...")
-        plot_capex_change_bars(all_results_by_tech, final_proj_years, countries, new_fig_dir)
-
-        # ── Type (4b): CAPEX变化率含误差线 ──
-        print("\n  【Type 4b】CAPEX变化率（含95%CI）...")
-        plot_capex_change_with_ci(all_results_by_tech, final_proj_years, countries, new_fig_dir)
-
         # ── Type (3b): 未来各年 CAPEX 变化产品分解 ──
         print("\n  【Type 3b】未来 CAPEX 变化产品分解图...")
         plot_capex_decomposition_future(
@@ -7676,6 +7668,14 @@ def step8_projections():
             final_proj_years, countries, new_fig_dir,
             gsim_shocks=gsim_shocks, mcmc_results=mcmc_cache,
         )
+
+        # ── Type (4a): CAPEX变化率条形图 ──
+        print("\n  【Type 4a】CAPEX变化率条形图...")
+        plot_capex_change_bars(all_results_by_tech, final_proj_years, countries, new_fig_dir)
+
+        # ── Type (4b): CAPEX变化率含误差线 ──
+        print("\n  【Type 4b】CAPEX变化率（含95%CI）...")
+        plot_capex_change_with_ci(all_results_by_tech, final_proj_years, countries, new_fig_dir)
 
     print(f"\n{'═'*64}")
     print("全部完成！")
