@@ -22,9 +22,9 @@ This tool integrates trade equilibrium modeling, Bayesian two-factor learning cu
 Pipeline Menu
 ├── 1. GSIM Simulation      — 贸易壁垒模拟：价格 / 产出 / 福利分析
 ├── 2. GSIM Visualisation   — 可视化：价格地图、贸易流量、福利图表
-├── 3. Bayesian Learning    — MCMC 贝叶斯学习曲线估计
+├── 3. Bayesian Learning    — 装机预测参数估计
 ├── 4. Capacity Projections — 2023–2060 分国家装机量预测
-├── 5. Carbon Alignment     — 巴黎协定目标对标与缺口分析
+├── 5. Carbon Alignment     — 气候目标下装机目标对标与缺口分析
 ├── T. Tariff Scenarios     — 查看 / 编辑关税情景
 ├── E. Elasticities         — 查看 / 编辑弹性参数
 └── M. Trade Matrices       — 查看内嵌 2023 年贸易矩阵
